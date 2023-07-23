@@ -1,22 +1,22 @@
 public class Question5 {
-    public int majorityElement(int[] nums) {
-        int maj_ele=nums[0];
-        int maj_count=1;
-        for(int i=1;i<nums.length;i++){
-            if(nums[i]==maj_ele){
-                maj_count++;
-            }
-            else{
-                maj_count--;
-                if(maj_count==0){
-                    maj_ele=nums[i];
-                    maj_count=1;
-                }
-            }
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode slow=head;
+        ListNode fast=head;
+        for(int i=0;i<n;i++){
+            fast=fast.next;
         }
-        return maj_ele;
+        if(fast==null){
+            return head.next;
+        }
+        while(fast.next != null){
+            slow=slow.next;
+            fast=fast.next;
+        }
+        slow.next=slow.next.next;
+        return head;
     }
     public static void main(String[] args) {
-        
+        //time complexity:O(n)
+        //space complexity:O(1)
     }
 }

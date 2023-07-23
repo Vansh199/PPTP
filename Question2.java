@@ -1,59 +1,23 @@
 public class Question2 {
-    public int[] searchRange(int[] nums, int target) {
-        int firstOccurrence = findFirstOccurrence(nums, target);
-        
-        if (firstOccurrence == -1) {
-            return new int[]{-1, -1};
+    public ListNode removeElements(ListNode head, int val) {
+        while(head != null && head.val==val){
+            head=head.next;
         }
-        
-        int lastOccurrence = findLastOccurrence(nums, target);
-        
-        return new int[]{firstOccurrence, lastOccurrence};
-    }
-    
-    private int findFirstOccurrence(int[] nums, int target) {
-        int left = 0;
-        int right = nums.length - 1;
-        int firstOccurrence = -1;
-        
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
-            
-            if (nums[mid] >= target) {
-                right = mid - 1;
-                if (nums[mid] == target) {
-                    firstOccurrence = mid;
-                }
-            } else {
-                left = mid + 1;
+        ListNode curr=head;
+        ListNode prev=null;
+        while(curr != null){
+            if(curr.val==val){
+                prev.next=curr.next;
             }
-        }
-        
-        return firstOccurrence;
-    }
-    
-    private int findLastOccurrence(int[] nums, int target) {
-        int left = 0;
-        int right = nums.length - 1;
-        int lastOccurrence = -1;
-        
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
-            
-            if (nums[mid] <= target) {
-                left = mid + 1;
-                if (nums[mid] == target) {
-                    lastOccurrence = mid;
-                }
-            } else {
-                right = mid - 1;
+            else{
+                prev=curr;
             }
+            curr=curr.next;
         }
-        
-        return lastOccurrence;
+        return head;
     }
-}
     public static void main(String[] args) {
-        
+        //time complexity:O(n)
+       //space complexity:O(1)
     }
 }

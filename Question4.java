@@ -1,22 +1,28 @@
 public class Question4 {
-    public int searchInsert(int[] nums, int target) {
-        int low=0;
-        int high=nums.length-1;
-        while(low<=high){
-            int mid=low+(high-low)/2;
-            if(nums[mid]<target){
-                low=mid+1;
-            }
-            else if(nums[mid]>target){
-                high=mid-1;
-            }
-            else{
-                return mid;
+    public ListNode detectCycle(ListNode head) {
+        ListNode slow=head;
+        ListNode fast=head;
+        boolean cycle=false;
+        while(slow != null && fast != null && fast.next != null){
+            slow=slow.next;
+            fast=fast.next.next;
+            if(slow==fast){
+                cycle=true;
+                break;
             }
         }
-        return low;
+        if(!cycle){
+            return null;
+        }
+        slow=head;
+        while(slow != fast){
+            slow=slow.next;
+            fast=fast.next;
+        }
+        return slow;
     }
     public static void main(String[] args) {
-        
+        //time complexity:O(n)
+        //space complexity:O(1)
     }
 }
