@@ -1,20 +1,32 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Question8 {
-    public ListNode oddEvenList(ListNode head) {
-        if(head==null){
-            return head;
+    private List<Integer> prefixProduct;
+    public ProductOfNumbers() {
+         prefixProduct = new ArrayList<>();
+        prefixProduct.add(1);
+    }
+    
+    public void add(int num) {
+       if (num == 0) {
+            prefixProduct.clear(); // Reset the prefix product list if encountering 0.
+            prefixProduct.add(1); // Initialize with the product of 0 numbers (1).
+        } else {
+            int lastProduct = prefixProduct.get(prefixProduct.size() - 1);
+            prefixProduct.add(lastProduct * num);
+        } 
+    }
+    
+    public int getProduct(int k) {
+        int n = prefixProduct.size();
+        if (k >= n) {
+            return 0; // If k is larger than the stream size, the product will always be 0.
         }
-        ListNode odd=head;
-        ListNode oddhead=head;
-        ListNode even=head.next;
-        ListNode evenhead=head.next;
-        while(odd != null && odd.next != null && even != null && even.next != null){
-            odd.next=odd.next.next;
-            odd=odd.next;
-            even.next=even.next.next;
-            even=even.next;
-        }
-        odd.next=evenhead;
-        return oddhead;
+
+        int lastProduct = prefixProduct.get(n - 1);
+        int kStepsEarlierProduct = prefixProduct.get(n - k - 1);
+        return lastProduct / kStepsEarlierProduct;
     }
     public static void main(String[] args) {
         

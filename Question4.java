@@ -1,28 +1,30 @@
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 public class Question4 {
-    public ListNode detectCycle(ListNode head) {
-        ListNode slow=head;
-        ListNode fast=head;
-        boolean cycle=false;
-        while(slow != null && fast != null && fast.next != null){
-            slow=slow.next;
-            fast=fast.next.next;
-            if(slow==fast){
-                cycle=true;
-                break;
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        int n=nums.length;
+        if(nums==null || n==0 || k<=0){
+            return new int[0];
+        }
+        int[] result = new int[n-k+1];
+        int index=0;
+        Deque<Integer> deque = new ArrayDeque<>();
+        for(int i=0;i<n;i++){
+            while(!deque.isEmpty() && deque.peek()<i-k+1){
+                deque.poll();
+            }
+            while(!deque.isEmpty() && nums[deque.peekLast()]<nums[i]){
+                deque.pollLast();
+            }
+            deque.offer(i);
+            if(i>=k-1){
+                result[index++]=nums[deque.peek()];
             }
         }
-        if(!cycle){
-            return null;
-        }
-        slow=head;
-        while(slow != fast){
-            slow=slow.next;
-            fast=fast.next;
-        }
-        return slow;
+        return result;
     }
     public static void main(String[] args) {
-        //time complexity:O(n)
-        //space complexity:O(1)
+        
     }
 }

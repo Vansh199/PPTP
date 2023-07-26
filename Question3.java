@@ -1,42 +1,24 @@
+import java.util.Stack;
+
 public class Question3 {
-    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
-        if(list1==null){
-            return list2;
+    Stack<Integer> prices;
+    Stack<Integer> spans;
+    public StockSpanner() {
+        prices=new Stack<>();
+        spans=new Stack<>();
+    }
+    
+    public int next(int price) {
+        int span=1;
+        while(!prices.isEmpty() && prices.peek()<=price){
+            prices.pop();
+            span += spans.pop();
         }
-        if(list2==null){
-            return list1;
-        }
-        ListNode head;
-        if(list1.val<=list2.val){
-            head=list1;
-            list1=list1.next;
-        }
-        else{
-            head=list2;
-            list2=list2.next;
-        }
-        ListNode curr=head;
-        while(list1 != null && list2 != null){
-            if(list1.val<=list2.val){
-                curr.next=list1;
-                list1=list1.next;
-            }
-            else{
-                curr.next=list2;
-                list2=list2.next;
-            }
-            curr=curr.next;
-        }
-        if(list1 != null){
-            curr.next=list1;
-        }
-        if(list2 != null){
-            curr.next=list2;
-        }
-        return head;
+        prices.push(price);
+        spans.push(span);
+        return span;
     }
     public static void main(String[] args) {
-        //time complexity:O(n+m)
-        //space complexity:O(1)
+        
     }
 }

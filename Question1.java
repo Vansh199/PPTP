@@ -1,12 +1,23 @@
-public class Question1{
-    public void deleteNode(ListNode node) {
-        int temp=node.val;
-        node.val=node.next.val;
-        node.next.val=temp;
-        node.next=node.next.next;
+import java.util.Stack;
+
+public class Question1 {
+    public String makeGood(String s) {
+        Stack<Character> stack = new Stack<>();
+        for(char c:s.toCharArray()){
+            if(!stack.isEmpty() && Math.abs(stack.peek()-c)==32){
+                stack.pop();
+            }
+            else{
+                stack.push(c);
+            }
+        }
+        StringBuilder result = new StringBuilder();
+        for(char c:stack){
+            result.append(c);
+        }
+        return result.toString();
     }
     public static void main(String[] args) {
-        //time complexity:O(1)
-        //space complexity:O(1)
+        
     }
 }

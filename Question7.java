@@ -1,29 +1,22 @@
-import java.util.HashMap;
-
 public class Question7 {
-    public ListNode removeZeroSumSublists(ListNode head) {
-        ListNode dummy = new ListNode(0);
-        dummy.next = head;
-        ListNode current = dummy;
-        int sum = 0;
-        HashMap<Integer, ListNode> map = new HashMap<>();
+    public int timeRequiredToBuy(int[] tickets, int k) {
+        int n = tickets.length;
+        int[] remainingTickets = tickets.clone();
+        int time = 0;
 
-        while (current != null) {
-            sum += current.val;
+        while (true) {
+            for (int i = 0; i < n; i++) {
+                if (remainingTickets[i] > 0) {
+                    int ticketsToBuy = Math.min(remainingTickets[i], 1);
+                    remainingTickets[i] -= ticketsToBuy;
+                    time += ticketsToBuy;
 
-            if (sum == 0) {
-                dummy.next = current.next;
-                map.clear();
-            } else if (map.containsKey(sum)) {
-                map.get(sum).next = current.next;
-            } else {
-                map.put(sum, current);
+                    if (i == k && remainingTickets[i] == 0) {
+                        return time;
+                    }
+                }
             }
-
-            current = current.next;
         }
-
-        return dummy.next;
     }
     public static void main(String[] args) {
         

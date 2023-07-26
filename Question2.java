@@ -1,23 +1,23 @@
+import java.util.Stack;
+
 public class Question2 {
-    public ListNode removeElements(ListNode head, int val) {
-        while(head != null && head.val==val){
-            head=head.next;
-        }
-        ListNode curr=head;
-        ListNode prev=null;
-        while(curr != null){
-            if(curr.val==val){
-                prev.next=curr.next;
+    public String removeDuplicates(String s) {
+        Stack<Character> stack = new Stack<>();
+        for(char c:s.toCharArray()){
+            if(!stack.isEmpty() && stack.peek()==c){
+                stack.pop();
             }
             else{
-                prev=curr;
+                stack.push(c);
             }
-            curr=curr.next;
         }
-        return head;
+        StringBuilder result = new StringBuilder();
+        for(char c:stack){
+            result.append(c);
+        }
+        return result.toString();
     }
     public static void main(String[] args) {
-        //time complexity:O(n)
-       //space complexity:O(1)
+        
     }
 }
