@@ -1,24 +1,18 @@
-import java.util.Stack;
+import javax.swing.tree.TreeNode;
 
 public class Question3 {
-    Stack<Integer> prices;
-    Stack<Integer> spans;
-    public StockSpanner() {
-        prices=new Stack<>();
-        spans=new Stack<>();
-    }
-    
-    public int next(int price) {
-        int span=1;
-        while(!prices.isEmpty() && prices.peek()<=price){
-            prices.pop();
-            span += spans.pop();
+    int max=0;
+    public int helper(TreeNode root){
+        if(root==null){
+            return 0;
         }
-        prices.push(price);
-        spans.push(span);
-        return span;
+        int left=helper(root.left);
+        int right=helper(root.right);
+        max=Math.max(max,left+right);
+        return 1+Math.max(left,right);
     }
-    public static void main(String[] args) {
-        
+    public int diameterOfBinaryTree(TreeNode root) {
+        helper(root);
+        return max;
     }
 }

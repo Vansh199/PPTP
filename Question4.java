@@ -1,30 +1,19 @@
-import java.util.ArrayDeque;
-import java.util.Deque;
+import javax.swing.tree.TreeNode;
 
 public class Question4 {
-    public int[] maxSlidingWindow(int[] nums, int k) {
-        int n=nums.length;
-        if(nums==null || n==0 || k<=0){
-            return new int[0];
+    public boolean check(TreeNode left,TreeNode right){
+        if(left==null && right==null){
+            return true;
         }
-        int[] result = new int[n-k+1];
-        int index=0;
-        Deque<Integer> deque = new ArrayDeque<>();
-        for(int i=0;i<n;i++){
-            while(!deque.isEmpty() && deque.peek()<i-k+1){
-                deque.poll();
-            }
-            while(!deque.isEmpty() && nums[deque.peekLast()]<nums[i]){
-                deque.pollLast();
-            }
-            deque.offer(i);
-            if(i>=k-1){
-                result[index++]=nums[deque.peek()];
-            }
+        if(left==null || right==null){
+            return false;
         }
-        return result;
+        if(left.val != right.val){
+            return false;
+        }
+        return check(left.left,right.right) && check(left.right,right.left);
     }
-    public static void main(String[] args) {
-        
+    public boolean isSymmetric(TreeNode root) {
+        return check(root,root);
     }
 }

@@ -1,34 +1,60 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+
+import javax.swing.tree.TreeNode;
 
 public class Question8 {
-    private List<Integer> prefixProduct;
-    public ProductOfNumbers() {
-         prefixProduct = new ArrayList<>();
-        prefixProduct.add(1);
-    }
-    
-    public void add(int num) {
-       if (num == 0) {
-            prefixProduct.clear(); // Reset the prefix product list if encountering 0.
-            prefixProduct.add(1); // Initialize with the product of 0 numbers (1).
-        } else {
-            int lastProduct = prefixProduct.get(prefixProduct.size() - 1);
-            prefixProduct.add(lastProduct * num);
-        } 
-    }
-    
-    public int getProduct(int k) {
-        int n = prefixProduct.size();
-        if (k >= n) {
-            return 0; // If k is larger than the stream size, the product will always be 0.
+    public List<List<String>> printTree(TreeNode root) {
+        // Calculate the height of the tree
+        int height = getHeight(root);
+        int rows = height + 1;
+        int cols = (int) Math.pow(2, height) - 1;
+        List<List<String>> res = new ArrayList<>();
+
+        // Initialize the res matrix with empty strings
+        for (int i = 0; i < rows; i++) {
+            List<String> row = new ArrayList<>();
+            for (int j = 0; j < cols; j++) {
+                row.add("");
+            }
+            res.add(row);
         }
 
-        int lastProduct = prefixProduct.get(n - 1);
-        int kStepsEarlierProduct = prefixProduct.get(n - k - 1);
-        return lastProduct / kStepsEarlierProduct;
+        // Perform level-order traversal (BFS)
+        Queue<TreeNode> queue = new LinkedList<>();
+        Queue<int[]> positions = new LinkedList<>();
+        queue.offer(root);
+        positions.offer(new int[] { 0, cols / 2 }); // Starting position for the root
+
+        while (!queue.isEmpty()) {
+            int levelSize = queue.size();
+            for (int i = 0; i < levelSize; i++) {
+                TreeNode node = queue.poll();
+                int[] pos = positions.poll();
+                int row = pos[0], col = pos[1];
+                res.get(row).set(col, String.valueOf(node.val));
+
+                if (node.left != null) {
+                    queue.offer(node.left);
+                    positions.offer(new int[] { row + 1, col - (int) Math.pow(2, height - row - 2) });
+                }
+
+                if (node.right != null) {
+                    queue.offer(node.right);
+                    positions.offer(new int[] { row + 1, col + (int) Math.pow(2, height - row - 2) });
+                }
+            }
+        }
+
+        return res;
     }
-    public static void main(String[] args) {
-        
+
+    private int getHeight(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return 1 + Math.max(getHeight(root.left), getHeight(root.right));
     }
 }

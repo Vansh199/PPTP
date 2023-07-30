@@ -1,24 +1,25 @@
+import java.util.Comparator;
+import java.util.PriorityQueue;
+
 public class Question7 {
-    public int timeRequiredToBuy(int[] tickets, int k) {
-        int n = tickets.length;
-        int[] remainingTickets = tickets.clone();
-        int time = 0;
-
-        while (true) {
-            for (int i = 0; i < n; i++) {
-                if (remainingTickets[i] > 0) {
-                    int ticketsToBuy = Math.min(remainingTickets[i], 1);
-                    remainingTickets[i] -= ticketsToBuy;
-                    time += ticketsToBuy;
-
-                    if (i == k && remainingTickets[i] == 0) {
-                        return time;
-                    }
+    public String kthLargestNumber(String[] nums, int k) {
+        PriorityQueue<String> minHeap = new PriorityQueue<>(new Comparator<String>() {
+            public int compare(String a, String b) {
+                if (a.length() == b.length()) {
+                    return a.compareTo(b);
+                } else {
+                    return a.length() - b.length();
                 }
             }
+        });
+
+        for (String num : nums) {
+            minHeap.offer(num);
+            if (minHeap.size() > k) {
+                minHeap.poll();
+            }
         }
-    }
-    public static void main(String[] args) {
-        
+
+        return minHeap.peek();
     }
 }
