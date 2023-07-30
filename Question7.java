@@ -1,25 +1,15 @@
-import java.util.Comparator;
-import java.util.PriorityQueue;
-
 public class Question7 {
-    public String kthLargestNumber(String[] nums, int k) {
-        PriorityQueue<String> minHeap = new PriorityQueue<>(new Comparator<String>() {
-            public int compare(String a, String b) {
-                if (a.length() == b.length()) {
-                    return a.compareTo(b);
-                } else {
-                    return a.length() - b.length();
-                }
-            }
-        });
-
-        for (String num : nums) {
-            minHeap.offer(num);
-            if (minHeap.size() > k) {
-                minHeap.poll();
-            }
+    public TreeNode insertIntoBST(TreeNode root, int val) {
+        if(root==null){
+            TreeNode node=new TreeNode(val);
+            return node;
         }
-
-        return minHeap.peek();
+        else if(val<root.val){
+            root.left=insertIntoBST(root.left,val);
+        }
+        else{
+            root.right=insertIntoBST(root.right,val);
+        }
+        return root;
     }
 }

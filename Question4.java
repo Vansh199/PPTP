@@ -1,19 +1,16 @@
 import javax.swing.tree.TreeNode;
 
 public class Question4 {
-    public boolean check(TreeNode left,TreeNode right){
-        if(left==null && right==null){
+    public boolean check(TreeNode root,long min,long max){
+        if(root==null){
             return true;
         }
-        if(left==null || right==null){
+        if(root.val <= min || root.val>=max){
             return false;
         }
-        if(left.val != right.val){
-            return false;
-        }
-        return check(left.left,right.right) && check(left.right,right.left);
+        return check(root.left,min,root.val) && check(root.right,root.val,max);
     }
-    public boolean isSymmetric(TreeNode root) {
-        return check(root,root);
+    public boolean isValidBST(TreeNode root) {
+        return check(root,Long.MIN_VALUE,Long.MAX_VALUE);
     }
 }

@@ -1,18 +1,29 @@
 import javax.swing.tree.TreeNode;
 
 public class Question3 {
-    int max=0;
-    public int helper(TreeNode root){
-        if(root==null){
-            return 0;
+     private int minDiff;
+    private Integer prevValue;
+      private void inOrderTraversal(TreeNode root) {
+        if (root == null) {
+            return;
         }
-        int left=helper(root.left);
-        int right=helper(root.right);
-        max=Math.max(max,left+right);
-        return 1+Math.max(left,right);
+        
+        // Traverse left subtree
+        inOrderTraversal(root.left);
+        
+        // Process current node
+        if (prevValue != null) {
+            minDiff = Math.min(minDiff, Math.abs(root.val - prevValue));
+        }
+        prevValue = root.val;
+        
+        // Traverse right subtree
+        inOrderTraversal(root.right);
     }
-    public int diameterOfBinaryTree(TreeNode root) {
-        helper(root);
-        return max;
+    public int getMinimumDifference(TreeNode root) {
+        minDiff = Integer.MAX_VALUE;
+        prevValue = null;
+        inOrderTraversal(root);
+        return minDiff;
     }
 }
